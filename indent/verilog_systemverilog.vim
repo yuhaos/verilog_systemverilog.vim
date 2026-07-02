@@ -419,7 +419,8 @@ function! s:GetContextIndent()
     elseif l:line =~ s:vlog_method && s:InsideSynPattern('verilog\(Task\|Function\)', l:lnum, "$")
       return s:GetContextStartIndent("method"    , l:lnum) + l:open_offset
     elseif l:line =~ s:vlog_preproc
-      return s:GetContextStartIndent("preproc"   , l:lnum) + l:open_offset
+      " Do not indent after ifdef/ifndef/etc as requested
+      return indent(l:lnum) + l:open_offset
     elseif l:line =~ s:vlog_context_end
       call verilog_systemverilog#Verbose("After the end of a context.")
       return indent(l:lnum)
